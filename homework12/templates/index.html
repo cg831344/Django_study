@@ -1,0 +1,84 @@
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<script type="text/javascript" src='/static/jquery-2.1.4.js'></script>
+</head>
+<body>
+ <label for='province'>省：</label>		
+	<select id='province'>
+		<option value='-1'>选择省</option>	
+	</select>
+	</br>
+	
+	<label for='city'>市：</label>		
+	<select id='city'>
+		<option value='-1'>选择市</option>	
+	</select>
+	</br>
+	
+	<label for='county'>县：</label>		
+	<select id='county'>
+		<option value='-1'>选择县</option>	
+	</select>
+	</br>
+<script type='text/javascript'>
+	$(function(){
+		Init();
+		$('#province').change(function(){
+		//	proviceid = $(this).find('option:selected').val();
+			proviceid = $("#province option:selected").val();
+			Request(/getcity/,{Id:proviceid},BindCity)
+		});
+		
+		$('#city').change(function(){
+			proviceid = $("#province").find('option:selected').val();
+			cityid = $("#city option:selected").val();
+			Request(/getcounty/,{proId:proviceid,Id:cityid},BindCounty)
+		});
+		
+					
+	});
+
+	function Init(){
+		Request('/getprovince/',null,BingProvince);
+		
+	};
+	
+	function BingProvince(data){
+		//console.log(data);
+		$.each(data,function(i,item){
+			op = $("<option value="+i+"></option>").text(item);
+			$('#province').append(op);
+		});
+	};
+	
+	function BindCity(data){
+		$('#city :gt(0)').remove();
+		$('#county :gt(0)').remove();
+		$.each(data,function(i,item){
+			op = $("<option value="+i+"></option>").text(item);
+			$('#city').append(op);
+		});
+	};
+	
+	function BindCounty(data){
+		$('#county :gt(0)').remove();
+		$.each(data,function(i,item){
+			op = $("<option value="+i+"></option>").text(item);
+			$('#county').append(op);
+		});
+	};
+	
+	function Request(url,data,func){
+		$.getJSON(url,data,function(json){
+			func(json);
+			
+		});
+		
+	}
+</script>
+</body>
+
+
+</html>
