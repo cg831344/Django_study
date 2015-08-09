@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<script src="/static/jquery.min.js"></script>
+
+<style type="text/css">
+	.first{
+		width:30%;
+		margin-left:10%;
+	}
+
+</style>
+</head>
+<body>
+<div class='first'>
+	<h1>主机信息</h1>
+	<table  class="table table-bordered table-condensed table-hover">
+	
+	{% for item in data %}
+		<tr>
+			<td>{{item.HostName}}</td>
+			<td>{{item.IP}}</td>
+	{% endfor %}
+	
+	</table>
+	<div>
+		总条数：{{count}}
+	</div>
+	
+</div>
+	<div style="margin-left:10%">
+		 <ul class="pagination">
+		{{page}}
+	     </ul>
+	</div>	
+
+
+</body>
+</html>
